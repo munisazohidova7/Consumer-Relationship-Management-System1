@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Cloud CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body{background:linear-gradient(135deg,#1e3c72,#2a5298);min-height:100vh;display:flex;align-items:center}
+        .login-card{border:none;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+        .login-header{background:linear-gradient(135deg,#1e3c72,#2a5298);border-radius:16px 16px 0 0}
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-4">
+            <div class="card login-card">
+                <div class="login-header text-white text-center py-4">
+                    <i class="bi bi-cloud fs-1"></i>
+                    <h3 class="mt-2 mb-0">Cloud CRM</h3>
+                    <small class="opacity-75">Clothing Wholesale Management</small>
+                </div>
+                <div class="card-body p-4">
+                    <div th:if="${param.error}" class="alert alert-danger">
+                        <i class="bi bi-exclamation-triangle me-2"></i>Invalid email or password.
+                    </div>
+                    <div th:if="${param.logout}" class="alert alert-info">
+                        <i class="bi bi-check-circle me-2"></i>Logged out successfully.
+                    </div>
+                    <form th:action="@{/login}" method="post">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input type="email" name="username" class="form-control" placeholder="admin@crm.com" required autofocus>
+                            </div>
+                        </div>
+                        <div class="mb-4">
+                            <label class="form-label fw-semibold">Password</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input type="password" name="password" class="form-control" placeholder="••••••••" required>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100 py-2">
+                            <i class="bi bi-box-arrow-in-right me-2"></i>Sign In
+                        </button>
+                    </form>
+                    <hr>
+                    <div class="text-center">
+                        <small class="text-muted">
+                            <strong>Admin:</strong> admin@crm.com / admin123<br>
+                            <strong>Manager:</strong> manager@crm.com / manager123<br>
+                            <strong>User:</strong> user@crm.com / user123
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

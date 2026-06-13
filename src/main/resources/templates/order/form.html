@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: head}"><title>Order</title></head>
+<body>
+<th:block th:replace="~{layout :: body(content=~{::content})}">
+<th:block th:fragment="content">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0" th:text="${order.id!=null}?'Edit Order':'New Order'">Order</h4>
+    <a th:href="@{/orders}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i>Back</a>
+</div>
+<div class="card">
+    <div class="card-body">
+        <form th:action="${order.id!=null}?@{/orders/edit/{id}(id=${order.id})}:@{/orders/add}" th:object="${order}" method="post">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Client *</label>
+                    <select th:field="*{client.id}" class="form-select" required>
+                        <option value="">Select client...</option>
+                        <option th:each="c:${clients}" th:value="${c.id}" th:text="${c.companyName}"></option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Status</label>
+                    <select th:field="*{status}" class="form-select">
+                        <option th:each="s:${statuses}" th:value="${s}" th:text="${s}"></option>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Product Type</label>
+                    <input type="text" th:field="*{productType}" class="form-control" placeholder="e.g. Men's Jackets">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Quantity</label>
+                    <input type="number" th:field="*{quantity}" class="form-control" min="1">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Total Amount ($) *</label>
+                    <input type="number" th:field="*{totalAmount}" class="form-control" step="0.01" min="0" required>
+                </div>
+                <div class="col-12">
+                    <label class="form-label fw-semibold">Description</label>
+                    <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-12">
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-2"></i>Save</button>
+                    <a th:href="@{/orders}" class="btn btn-outline-secondary ms-2">Cancel</a>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</th:block>
+</th:block>
+</body>
+</html>

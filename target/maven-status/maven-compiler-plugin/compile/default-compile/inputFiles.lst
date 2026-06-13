@@ -1,0 +1,16 @@
+/home/ubuntu/cloud-crm/src/main/java/com/crm/config/SecurityConfig.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/controller/UserController.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/entity/Client.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/controller/DashboardController.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/service/OrderService.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/service/ClientService.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/controller/OrderController.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/CloudCrmApplication.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/repository/ClientRepository.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/config/DataInitializer.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/entity/User.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/service/UserService.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/entity/Order.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/controller/ClientController.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/repository/OrderRepository.java
+/home/ubuntu/cloud-crm/src/main/java/com/crm/repository/UserRepository.java

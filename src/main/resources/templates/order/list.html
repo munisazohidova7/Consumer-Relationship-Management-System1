@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout :: head}"><title>Orders</title></head>
+<body>
+<th:block th:replace="~{layout :: body(content=~{::content})}">
+<th:block th:fragment="content">
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h4 class="mb-0"><i class="bi bi-cart me-2"></i>Orders</h4>
+    <a th:href="@{/orders/add}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>New Order</a>
+</div>
+<div class="card">
+    <div class="card-body p-0">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0">
+                <thead class="table-light">
+                    <tr><th>Order#</th><th>Client</th><th>Product</th><th>Qty</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+                </thead>
+                <tbody>
+                    <tr th:each="o : ${orders}">
+                        <td><code th:text="${o.orderNumber}"></code></td>
+                        <td th:text="${o.client?.companyName}"></td>
+                        <td th:text="${o.productType}"></td>
+                        <td th:text="${o.quantity}"></td>
+                        <td><strong>$<span th:text="${#numbers.formatDecimal(o.totalAmount,0,'COMMA',2,'POINT')}"></span></strong></td>
+                        <td><span class="badge" th:classappend="${o.status?.name()=='DELIVERED'}?'bg-success':(${o.status?.name()=='PENDING'}?'bg-warning text-dark':(${o.status?.name()=='CANCELLED'}?'bg-danger':'bg-info'))" th:text="${o.status}"></span></td>
+                        <td th:text="${#temporals.format(o.createdAt,'dd MMM yyyy')}"></td>
+                        <td>
+                            <a th:href="@{/orders/edit/{id}(id=${o.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                            <form th:action="@{/orders/delete/{id}(id=${o.id})}" method="post" class="d-inline" sec:authorize="hasAnyRole('ADMIN','MANAGER')" onsubmit="return confirm('Delete?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
+                            </form>
+                        </td>
+                    </tr>
+                    <tr th:if="${#lists.isEmpty(orders)}">
+                        <td colspan="8" class="text-center text-muted py-4"><i class="bi bi-inbox fs-3 d-block mb-2"></i>No orders yet</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</th:block>
+</th:block>
+</body>
+</html>
