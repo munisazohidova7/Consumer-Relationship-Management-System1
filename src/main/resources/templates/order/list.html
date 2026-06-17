@@ -4,41 +4,157 @@
 <body>
 <th:block th:replace="~{layout :: body(content=~{::content})}">
 <th:block th:fragment="content">
+
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0"><i class="bi bi-cart me-2"></i>Orders</h4>
-    <a th:href="@{/orders/add}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>New Order</a>
+    <div>
+        <h4 class="mb-1">Orders</h4>
+        <small class="text-muted" th:text="${totalElements} + ' total orders'"></small>
+    </div>
+    <a th:href="@{/orders/add}" class="btn btn-primary btn-sm">
+        <i class="bi bi-cart-plus me-1"></i>New Order
+    </a>
 </div>
+
+<!-- Filter & Search -->
+<div class="card p-3 mb-4">
+    <form th:action="@{/orders}" method="get" class="row g-2 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label small fw-semibold">Search</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" name="search" class="form-control"
+                       placeholder="Order number or product..."
+                       th:value="${search}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label small fw-semibold">Status</label>
+            <select name="status" class="form-select">
+                <option value="">All Statuses</option>
+                <option th:each="s:${statuses}"
+                        th:value="${s}"
+                        th:text="${s}"
+                        th:selected="${s.name()==selectedStatus}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Show</label>
+            <select name="size" class="form-select">
+                <option value="10" th:selected="${size==10}">10</option>
+                <option value="20" th:selected="${size==20}">20</option>
+                <option value="50" th:selected="${size==50}">50</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
+</div>
+
+<!-- Status badges -->
+<div class="d-flex gap-2 mb-3">
+    <a th:href="@{/orders}" class="badge text-decoration-none fs-6"
+       th:classappend="${selectedStatus==null}?'bg-dark':'bg-secondary'">All</a>
+    <a th:href="@{/orders(status='PENDING')}" class="badge text-decoration-none fs-6"
+       th:classappend="${selectedStatus=='PENDING'}?'bg-warning text-dark':'bg-secondary'">Pending</a>
+    <a th:href="@{/orders(status='PROCESSING')}" class="badge text-decoration-none fs-6"
+       th:classappend="${selectedStatus=='PROCESSING'}?'bg-info':'bg-secondary'">Processing</a>
+    <a th:href="@{/orders(status='SHIPPED')}" class="badge text-decoration-none fs-6"
+       th:classappend="${selectedStatus=='SHIPPED'}?'bg-primary':'bg-secondary'">Shipped</a>
+    <a th:href="@{/orders(status='DELIVERED')}" class="badge text-decoration-none fs-6"
+       th:classappend="${selectedStatus=='DELIVERED'}?'bg-success':'bg-secondary'">Delivered</a>
+    <a th:href="@{/orders(status='CANCELLED')}" class="badge text-decoration-none fs-6"
+       th:classappend="${selectedStatus=='CANCELLED'}?'bg-danger':'bg-secondary'">Cancelled</a>
+</div>
+
+<!-- Table -->
 <div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0">
                 <thead class="table-light">
-                    <tr><th>Order#</th><th>Client</th><th>Product</th><th>Qty</th><th>Amount</th><th>Status</th><th>Date</th><th>Actions</th></tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Order #</th>
+                        <th>Client</th>
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="o : ${orders}">
-                        <td><code th:text="${o.orderNumber}"></code></td>
-                        <td th:text="${o.client?.companyName}"></td>
-                        <td th:text="${o.productType}"></td>
-                        <td th:text="${o.quantity}"></td>
-                        <td><strong>$<span th:text="${#numbers.formatDecimal(o.totalAmount,0,'COMMA',2,'POINT')}"></span></strong></td>
-                        <td><span class="badge" th:classappend="${o.status?.name()=='DELIVERED'}?'bg-success':(${o.status?.name()=='PENDING'}?'bg-warning text-dark':(${o.status?.name()=='CANCELLED'}?'bg-danger':'bg-info'))" th:text="${o.status}"></span></td>
-                        <td th:text="${#temporals.format(o.createdAt,'dd MMM yyyy')}"></td>
+                    <tr th:each="order,i : ${orders}">
+                        <td class="text-muted small" th:text="${i.index + 1 + currentPage * size}"></td>
+                        <td><code th:text="${order.orderNumber}"></code></td>
                         <td>
-                            <a th:href="@{/orders/edit/{id}(id=${o.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                            <form th:action="@{/orders/delete/{id}(id=${o.id})}" method="post" class="d-inline" sec:authorize="hasAnyRole('ADMIN','MANAGER')" onsubmit="return confirm('Delete?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                            </form>
+                            <div class="fw-semibold small" th:text="${order.client?.companyName}"></div>
+                            <div class="text-muted" style="font-size:0.75rem" th:text="${order.client?.city}"></div>
+                        </td>
+                        <td th:text="${order.productType}"></td>
+                        <td th:text="${order.quantity}"></td>
+                        <td><strong>$<span th:text="${#numbers.formatDecimal(order.totalAmount,0,'COMMA',2,'POINT')}"></span></strong></td>
+                        <td>
+                            <span class="badge"
+                                th:classappend="${order.status?.name()=='DELIVERED'}?'bg-success':(${order.status?.name()=='PENDING'}?'bg-warning text-dark':(${order.status?.name()=='CANCELLED'}?'bg-danger':(${order.status?.name()=='SHIPPED'}?'bg-primary':'bg-info')))"
+                                th:text="${order.status}"></span>
+                        </td>
+                        <td class="small text-muted" th:text="${#temporals.format(order.createdAt,'dd/MM/yyyy')}"></td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <a th:href="@{/orders/edit/{id}(id=${order.id})}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form th:action="@{/orders/delete/{id}(id=${order.id})}" method="post"
+                                      sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                                      onsubmit="return confirm('Delete this order?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(orders)}">
-                        <td colspan="8" class="text-center text-muted py-4"><i class="bi bi-inbox fs-3 d-block mb-2"></i>No orders yet</td>
+                        <td colspan="9" class="text-center text-muted py-4">
+                            <i class="bi bi-bag fs-1 d-block mb-2"></i>
+                            No orders found
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-between align-items-center mt-3" th:if="${totalPages > 1}">
+    <small class="text-muted">
+        Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span>
+    </small>
+    <nav>
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" th:classappend="${currentPage == 0}?'disabled'">
+                <a class="page-link" th:href="@{/orders(page=${currentPage-1},size=${size},search=${search},status=${selectedStatus})}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            <li class="page-item" th:each="i:${#numbers.sequence(0,totalPages-1)}"
+                th:classappend="${i==currentPage}?'active'">
+                <a class="page-link" th:href="@{/orders(page=${i},size=${size},search=${search},status=${selectedStatus})}"
+                   th:text="${i+1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages-1}?'disabled'">
+                <a class="page-link" th:href="@{/orders(page=${currentPage+1},size=${size},search=${search},status=${selectedStatus})}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>
+
 </th:block>
 </th:block>
 </body>

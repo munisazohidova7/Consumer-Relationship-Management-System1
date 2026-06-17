@@ -10,7 +10,8 @@
 </div>
 <div class="card">
     <div class="card-body">
-        <form th:action="${client.id!=null}?@{/clients/edit/{id}(id=${client.id})}:@{/clients/add}" th:object="${client}" method="post">
+        <form th:action="${client.id!=null}?@{/clients/edit/{id}(id=${client.id})}:@{/clients/add}"
+              th:object="${client}" method="post">
             <div class="row g-3">
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Company Name *</label>
@@ -44,9 +45,12 @@
                 </div>
                 <div class="col-md-6">
                     <label class="form-label fw-semibold">Assigned To</label>
-                    <select th:field="*{assignedTo.id}" class="form-select">
+                    <select name="assignedToId" class="form-select">
                         <option value="">-- Not Assigned --</option>
-                        <option th:each="u:${users}" th:value="${u.id}" th:text="${u.fullName}"></option>
+                        <option th:each="u:${users}"
+                                th:value="${u.id}"
+                                th:text="${u.fullName}"
+                                th:selected="${client.assignedTo?.id == u.id}"></option>
                     </select>
                 </div>
                 <div class="col-12">
@@ -54,7 +58,10 @@
                     <textarea th:field="*{notes}" class="form-control" rows="3"></textarea>
                 </div>
                 <div class="col-12">
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-check-circle me-2"></i>Save</button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="bi bi-check-circle me-2"></i>
+                        <span th:text="${client.id!=null}?'Update Client':'Save Client'">Save</span>
+                    </button>
                     <a th:href="@{/clients}" class="btn btn-outline-secondary ms-2">Cancel</a>
                 </div>
             </div>

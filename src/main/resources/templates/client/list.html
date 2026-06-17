@@ -4,72 +4,169 @@
 <body>
 <th:block th:replace="~{layout :: body(content=~{::content})}">
 <th:block th:fragment="content">
+
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0"><i class="bi bi-people me-2"></i>Clients</h4>
+    <div>
+        <h4 class="mb-1">Clients</h4>
+        <small class="text-muted" th:text="${totalElements} + ' total clients'"></small>
+    </div>
     <div class="d-flex gap-2">
-        <button class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#importModal"><i class="bi bi-upload me-1"></i>Import</button>
-        <a th:href="@{/clients/export}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-download me-1"></i>Export</a>
-        <a th:href="@{/clients/add}" class="btn btn-primary btn-sm"><i class="bi bi-plus-circle me-1"></i>Add Client</a>
+        <a th:href="@{/clients/export}" class="btn btn-outline-success btn-sm">
+            <i class="bi bi-download me-1"></i>Export CSV
+        </a>
+        <a th:href="@{/clients/add}" class="btn btn-primary btn-sm">
+            <i class="bi bi-person-plus me-1"></i>Add Client
+        </a>
     </div>
 </div>
-<div class="card mb-3">
-    <div class="card-body py-2">
-        <form method="get" class="d-flex gap-2">
-            <input type="text" name="search" class="form-control form-control-sm" placeholder="Search company..." th:value="${search}">
-            <button type="submit" class="btn btn-primary btn-sm px-3"><i class="bi bi-search"></i></button>
-            <a th:href="@{/clients}" class="btn btn-outline-secondary btn-sm">Clear</a>
-        </form>
-    </div>
+
+<!-- Filter & Search -->
+<div class="card p-3 mb-4">
+    <form th:action="@{/clients}" method="get" class="row g-2 align-items-end">
+        <div class="col-md-5">
+            <label class="form-label small fw-semibold">Search</label>
+            <div class="input-group">
+                <span class="input-group-text"><i class="bi bi-search"></i></span>
+                <input type="text" name="search" class="form-control"
+                       placeholder="Company name or contact..."
+                       th:value="${search}">
+            </div>
+        </div>
+        <div class="col-md-3">
+            <label class="form-label small fw-semibold">Status</label>
+            <select name="status" class="form-select">
+                <option value="">All Statuses</option>
+                <option th:each="s:${statuses}"
+                        th:value="${s}"
+                        th:text="${s}"
+                        th:selected="${s.name()==selectedStatus}"></option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <label class="form-label small fw-semibold">Show</label>
+            <select name="size" class="form-select">
+                <option value="10" th:selected="${size==10}">10</option>
+                <option value="20" th:selected="${size==20}">20</option>
+                <option value="50" th:selected="${size==50}">50</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </form>
 </div>
+
+<!-- Status badges -->
+<div class="d-flex gap-2 mb-3">
+    <a th:href="@{/clients}" class="badge text-decoration-none"
+       th:classappend="${selectedStatus==null}?'bg-dark':'bg-secondary'">All</a>
+    <a th:href="@{/clients(status='ACTIVE')}" class="badge text-decoration-none"
+       th:classappend="${selectedStatus=='ACTIVE'}?'bg-success':'bg-secondary'">Active</a>
+    <a th:href="@{/clients(status='LEAD')}" class="badge text-decoration-none"
+       th:classappend="${selectedStatus=='LEAD'}?'bg-warning':'bg-secondary'">Lead</a>
+    <a th:href="@{/clients(status='INACTIVE')}" class="badge text-decoration-none"
+       th:classappend="${selectedStatus=='INACTIVE'}?'bg-secondary':'bg-secondary'">Inactive</a>
+    <a th:href="@{/clients(status='LOST')}" class="badge text-decoration-none"
+       th:classappend="${selectedStatus=='LOST'}?'bg-danger':'bg-secondary'">Lost</a>
+</div>
+
+<!-- Table -->
 <div class="card">
     <div class="card-body p-0">
         <div class="table-responsive">
             <table class="table table-hover mb-0">
                 <thead class="table-light">
-                    <tr><th>#</th><th>Company</th><th>Contact</th><th>Email</th><th>Phone</th><th>City</th><th>Status</th><th>Actions</th></tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Company</th>
+                        <th>Contact</th>
+                        <th>Phone</th>
+                        <th>City</th>
+                        <th>Status</th>
+                        <th>Assigned</th>
+                        <th>Actions</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="c,i : ${clients}">
-                        <td th:text="${i.count}"></td>
-                        <td><a th:href="@{/clients/view/{id}(id=${c.id})}" class="fw-semibold text-decoration-none" th:text="${c.companyName}"></a></td>
-                        <td th:text="${c.contactPerson}"></td>
-                        <td th:text="${c.email}"></td>
-                        <td th:text="${c.phone}"></td>
-                        <td th:text="${c.city}"></td>
-                        <td><span class="badge" th:classappend="${c.status?.name()=='ACTIVE'}?'bg-success':(${c.status?.name()=='LEAD'}?'bg-warning text-dark':'bg-secondary')" th:text="${c.status}"></span></td>
+                    <tr th:each="client,i : ${clients}">
+                        <td class="text-muted small" th:text="${i.index + 1 + currentPage * size}"></td>
                         <td>
-                            <a th:href="@{/clients/edit/{id}(id=${c.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                            <form th:action="@{/clients/delete/{id}(id=${c.id})}" method="post" class="d-inline" onsubmit="return confirm('Delete?')">
-                                <button type="submit" class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                            </form>
+                            <div class="d-flex align-items-center">
+                                <div class="user-avatar me-2" style="background:#3498db;color:white;min-width:32px;font-size:0.75rem"
+                                     th:text="${client.companyName?.substring(0,1)}">C</div>
+                                <div>
+                                    <div class="fw-semibold small" th:text="${client.companyName}"></div>
+                                    <div class="text-muted" style="font-size:0.75rem" th:text="${client.email}"></div>
+                                </div>
+                            </div>
+                        </td>
+                        <td th:text="${client.contactPerson}"></td>
+                        <td th:text="${client.phone}"></td>
+                        <td th:text="${client.city}"></td>
+                        <td>
+                            <span class="badge"
+                                th:classappend="${client.status?.name()=='ACTIVE'}?'bg-success':(${client.status?.name()=='LEAD'}?'bg-warning text-dark':(${client.status?.name()=='LOST'}?'bg-danger':'bg-secondary'))"
+                                th:text="${client.status}"></span>
+                        </td>
+                        <td>
+                            <span class="small text-muted" th:text="${client.assignedTo?.fullName ?: 'Unassigned'}"></span>
+                        </td>
+                        <td>
+                            <div class="d-flex gap-1">
+                                <a th:href="@{/clients/view/{id}(id=${client.id})}" class="btn btn-sm btn-outline-info">
+                                    <i class="bi bi-eye"></i>
+                                </a>
+                                <a th:href="@{/clients/edit/{id}(id=${client.id})}" class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-pencil"></i>
+                                </a>
+                                <form th:action="@{/clients/delete/{id}(id=${client.id})}" method="post"
+                                      sec:authorize="hasAnyRole('ADMIN','MANAGER')"
+                                      onsubmit="return confirm('Delete this client?')">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                     <tr th:if="${#lists.isEmpty(clients)}">
-                        <td colspan="8" class="text-center text-muted py-4"><i class="bi bi-inbox fs-3 d-block mb-2"></i>No clients found</td>
+                        <td colspan="8" class="text-center text-muted py-4">
+                            <i class="bi bi-people fs-1 d-block mb-2"></i>
+                            No clients found
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
-    <div class="card-footer text-muted">Total: <strong th:text="${#lists.size(clients)}">0</strong></div>
 </div>
-<div class="modal fade" id="importModal" tabindex="-1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header"><h5 class="modal-title">Import CSV</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div>
-            <form th:action="@{/clients/import}" method="post" enctype="multipart/form-data">
-                <div class="modal-body">
-                    <p class="text-muted small">Format: Company, Contact, Email, Phone, City, Country</p>
-                    <input type="file" name="file" class="form-control" accept=".csv" required>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Import</button>
-                </div>
-            </form>
-        </div>
-    </div>
+
+<!-- Pagination -->
+<div class="d-flex justify-content-between align-items-center mt-3" th:if="${totalPages > 1}">
+    <small class="text-muted">
+        Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span>
+    </small>
+    <nav>
+        <ul class="pagination pagination-sm mb-0">
+            <li class="page-item" th:classappend="${currentPage == 0}?'disabled'">
+                <a class="page-link" th:href="@{/clients(page=${currentPage-1},size=${size},search=${search},status=${selectedStatus})}">
+                    <i class="bi bi-chevron-left"></i>
+                </a>
+            </li>
+            <li class="page-item" th:each="i:${#numbers.sequence(0,totalPages-1)}"
+                th:classappend="${i==currentPage}?'active'">
+                <a class="page-link" th:href="@{/clients(page=${i},size=${size},search=${search},status=${selectedStatus})}"
+                   th:text="${i+1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${currentPage == totalPages-1}?'disabled'">
+                <a class="page-link" th:href="@{/clients(page=${currentPage+1},size=${size},search=${search},status=${selectedStatus})}">
+                    <i class="bi bi-chevron-right"></i>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>
+
 </th:block>
 </th:block>
 </body>

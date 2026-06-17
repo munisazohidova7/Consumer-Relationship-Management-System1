@@ -4,34 +4,89 @@
 <body>
 <th:block th:replace="~{layout :: body(content=~{::content})}">
 <th:block th:fragment="content">
+
 <div class="d-flex justify-content-between align-items-center mb-4">
-    <h4 class="mb-0"><i class="bi bi-person-gear me-2"></i>Users</h4>
-    <a th:href="@{/admin/users/add}" class="btn btn-primary btn-sm"><i class="bi bi-person-plus me-1"></i>Add User</a>
+    <div>
+        <h4 class="mb-1">Users</h4>
+        <small class="text-muted">Manage system users</small>
+    </div>
+    <a th:href="@{/admin/users/add}" class="btn btn-primary btn-sm">
+        <i class="bi bi-person-plus me-1"></i>Add User
+    </a>
 </div>
+
+<div class="row g-3 mb-4">
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <i class="bi bi-shield-fill-check fs-1 text-danger mb-2"></i>
+            <h4 th:text="${adminCount}">0</h4>
+            <p class="text-muted mb-0">Admins</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <i class="bi bi-person-badge-fill fs-1 text-primary mb-2"></i>
+            <h4 th:text="${managerCount}">0</h4>
+            <p class="text-muted mb-0">Managers</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card p-3 text-center">
+            <i class="bi bi-person-fill fs-1 text-success mb-2"></i>
+            <h4 th:text="${userCount}">0</h4>
+            <p class="text-muted mb-0">Users</p>
+        </div>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-body p-0">
         <table class="table table-hover mb-0">
             <thead class="table-light">
-                <tr><th>#</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
             </thead>
             <tbody>
                 <tr th:each="u,i : ${users}">
-                    <td th:text="${i.count}"></td>
-                    <td th:text="${u.fullName}"></td>
-                    <td th:text="${u.email}"></td>
-                    <td><span class="badge" th:classappend="${u.role?.name()=='ADMIN'}?'bg-danger':(${u.role?.name()=='MANAGER'}?'bg-primary':'bg-success')" th:text="${u.role}"></span></td>
-                    <td><span th:if="${u.active}" class="badge bg-success">Active</span><span th:unless="${u.active}" class="badge bg-secondary">Inactive</span></td>
+                    <td class="text-muted small" th:text="${i.index + 1}"></td>
                     <td>
-                        <a th:href="@{/admin/users/edit/{id}(id=${u.id})}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                        <form th:action="@{/admin/users/delete/{id}(id=${u.id})}" method="post" class="d-inline" onsubmit="return confirm('Deactivate?')">
-                            <button type="submit" class="btn btn-sm btn-outline-warning"><i class="bi bi-person-slash"></i></button>
-                        </form>
+                        <div class="d-flex align-items-center">
+                            <div class="user-avatar me-2"
+                                 th:style="${u.role.name()=='ADMIN'} ? 'background:#e74c3c;color:white' : (${u.role.name()=='MANAGER'} ? 'background:#3498db;color:white' : 'background:#2ecc71;color:white')"
+                                 th:text="${u.firstName?.substring(0,1)}">U</div>
+                            <div class="fw-semibold small" th:text="${u.fullName}"></div>
+                        </div>
+                    </td>
+                    <td th:text="${u.email}"></td>
+                    <td>
+                        <span class="badge"
+                              th:classappend="${u.role.name()=='ADMIN'}?'bg-danger':(${u.role.name()=='MANAGER'}?'bg-primary':'bg-success')"
+                              th:text="${u.role}"></span>
+                    </td>
+                    <td>
+                        <div class="d-flex gap-1">
+                            <a th:href="@{/admin/users/edit/{id}(id=${u.id})}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                            </a>
+                            <form th:action="@{/admin/users/delete/{id}(id=${u.id})}" method="post"
+                                  onsubmit="return confirm('Delete this user?')">
+                                <button type="submit" class="btn btn-sm btn-outline-danger">
+                                    <i class="bi bi-trash"></i>
+                                </button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 </div>
+
 </th:block>
 </th:block>
 </body>

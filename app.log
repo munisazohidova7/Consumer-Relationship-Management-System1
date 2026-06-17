@@ -8,40 +8,39 @@ Standard Commons Logging discovery in action with spring-jcl: please remove comm
  =========|_|==============|___/=/_/_/_/
  :: Spring Boot ::                (v3.2.0)
 
-2026-06-13T10:46:29.774Z  INFO 2021785 --- [cloud-crm] [           main] com.crm.CloudCrmApplication              : Starting CloudCrmApplication v0.0.1-SNAPSHOT using Java 17.0.19 with PID 2021785 (/home/ubuntu/cloud-crm/target/cloud-crm-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/cloud-crm)
-2026-06-13T10:46:29.787Z  INFO 2021785 --- [cloud-crm] [           main] com.crm.CloudCrmApplication              : No active profile set, falling back to 1 default profile: "default"
-2026-06-13T10:46:30.577Z  WARN 2021785 --- [cloud-crm] [           main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.crm.CloudCrmApplication]
-2026-06-13T10:46:31.032Z ERROR 2021785 --- [cloud-crm] [           main] o.s.boot.SpringApplication               : Application run failed
-
-org.springframework.beans.factory.BeanDefinitionStoreException: Failed to parse configuration class [com.crm.CloudCrmApplication]
-	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:178) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.processConfigBeanDefinitions(ConfigurationClassPostProcessor.java:416) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ConfigurationClassPostProcessor.postProcessBeanDefinitionRegistry(ConfigurationClassPostProcessor.java:289) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanDefinitionRegistryPostProcessors(PostProcessorRegistrationDelegate.java:349) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.support.PostProcessorRegistrationDelegate.invokeBeanFactoryPostProcessors(PostProcessorRegistrationDelegate.java:118) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.support.AbstractApplicationContext.invokeBeanFactoryPostProcessors(AbstractApplicationContext.java:775) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:597) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.2.0.jar!/:3.2.0]
-	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:753) ~[spring-boot-3.2.0.jar!/:3.2.0]
-	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:455) ~[spring-boot-3.2.0.jar!/:3.2.0]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:323) ~[spring-boot-3.2.0.jar!/:3.2.0]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1342) ~[spring-boot-3.2.0.jar!/:3.2.0]
-	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1331) ~[spring-boot-3.2.0.jar!/:3.2.0]
-	at com.crm.CloudCrmApplication.main(CloudCrmApplication.java:9) ~[!/:0.0.1-SNAPSHOT]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
-	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77) ~[na:na]
-	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
-	at java.base/java.lang.reflect.Method.invoke(Method.java:569) ~[na:na]
-	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:91) ~[cloud-crm-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
-	at org.springframework.boot.loader.launch.Launcher.launch(Launcher.java:53) ~[cloud-crm-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
-	at org.springframework.boot.loader.launch.JarLauncher.main(JarLauncher.java:58) ~[cloud-crm-0.0.1-SNAPSHOT.jar:0.0.1-SNAPSHOT]
-Caused by: org.springframework.context.annotation.ConflictingBeanDefinitionException: Annotation-specified bean name 'dataInitializer' for bean class [com.crm.component.DataInitializer] conflicts with existing, non-compatible bean definition of same name and class [com.crm.cloudcrm.component.DataInitializer]
-	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.checkCandidate(ClassPathBeanDefinitionScanner.java:361) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ClassPathBeanDefinitionScanner.doScan(ClassPathBeanDefinitionScanner.java:288) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ComponentScanAnnotationParser.parse(ComponentScanAnnotationParser.java:128) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ConfigurationClassParser.doProcessConfigurationClass(ConfigurationClassParser.java:296) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ConfigurationClassParser.processConfigurationClass(ConfigurationClassParser.java:245) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:196) ~[spring-context-6.1.1.jar!/:6.1.1]
-	at org.springframework.context.annotation.ConfigurationClassParser.parse(ConfigurationClassParser.java:164) ~[spring-context-6.1.1.jar!/:6.1.1]
-	... 20 common frames omitted
-
+2026-06-13T11:38:27.362Z  INFO 2032487 --- [cloud-crm] [           main] com.crm.CloudCrmApplication              : Starting CloudCrmApplication v0.0.1-SNAPSHOT using Java 17.0.19 with PID 2032487 (/home/ubuntu/cloud-crm/target/cloud-crm-0.0.1-SNAPSHOT.jar started by ubuntu in /home/ubuntu/cloud-crm)
+2026-06-13T11:38:27.375Z  INFO 2032487 --- [cloud-crm] [           main] com.crm.CloudCrmApplication              : No active profile set, falling back to 1 default profile: "default"
+2026-06-13T11:38:34.536Z  INFO 2032487 --- [cloud-crm] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-06-13T11:38:34.814Z  INFO 2032487 --- [cloud-crm] [           main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 211 ms. Found 3 JPA repository interfaces.
+2026-06-13T11:38:42.552Z  INFO 2032487 --- [cloud-crm] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2026-06-13T11:38:42.935Z  INFO 2032487 --- [cloud-crm] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2026-06-13T11:38:42.936Z  INFO 2032487 --- [cloud-crm] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.16]
+2026-06-13T11:38:44.147Z  INFO 2032487 --- [cloud-crm] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2026-06-13T11:38:44.153Z  INFO 2032487 --- [cloud-crm] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 16539 ms
+Standard Commons Logging discovery in action with spring-jcl: please remove commons-logging.jar from classpath in order to avoid potential conflicts
+2026-06-13T11:38:49.334Z  INFO 2032487 --- [cloud-crm] [           main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-06-13T11:38:51.444Z  INFO 2032487 --- [cloud-crm] [           main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.3.1.Final
+2026-06-13T11:38:51.875Z  INFO 2032487 --- [cloud-crm] [           main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2026-06-13T11:38:56.213Z  INFO 2032487 --- [cloud-crm] [           main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-06-13T11:38:56.357Z  INFO 2032487 --- [cloud-crm] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-06-13T11:39:02.778Z  INFO 2032487 --- [cloud-crm] [           main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@1592e540
+2026-06-13T11:39:02.794Z  INFO 2032487 --- [cloud-crm] [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-06-13T11:39:03.216Z  WARN 2032487 --- [cloud-crm] [           main] org.hibernate.orm.deprecation            : HHH90000025: MySQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-06-13T11:39:51.386Z  INFO 2032487 --- [cloud-crm] [           main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2026-06-13T11:40:06.316Z  INFO 2032487 --- [cloud-crm] [           main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-06-13T11:40:34.720Z  INFO 2032487 --- [cloud-crm] [           main] o.s.d.j.r.query.QueryEnhancerFactory     : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-06-13T11:40:45.428Z  WARN 2032487 --- [cloud-crm] [           main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-06-13T11:41:02.894Z  INFO 2032487 --- [cloud-crm] [           main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 2 endpoint(s) beneath base path '/actuator'
+2026-06-13T11:41:06.575Z  INFO 2032487 --- [cloud-crm] [           main] o.s.s.web.DefaultSecurityFilterChain     : Will secure any request with [org.springframework.security.web.session.DisableEncodeUrlFilter@61668c05, org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@6573b345, org.springframework.security.web.context.SecurityContextHolderFilter@5f82dd9a, org.springframework.security.web.header.HeaderWriterFilter@15e8e884, org.springframework.web.filter.CorsFilter@5c085d4a, org.springframework.security.web.csrf.CsrfFilter@5a342baf, org.springframework.security.web.authentication.logout.LogoutFilter@40557b00, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5ae6a240, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1d4ae17e, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4632d697, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@3fc0a2c, org.springframework.security.web.access.ExceptionTranslationFilter@56c75b4f, org.springframework.security.web.access.intercept.AuthorizationFilter@4b2164a9]
+2026-06-13T11:41:27.107Z  INFO 2032487 --- [cloud-crm] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path ''
+2026-06-13T11:41:28.490Z  INFO 2032487 --- [cloud-crm] [           main] com.crm.CloudCrmApplication              : Started CloudCrmApplication in 185.943 seconds (process running for 201.946)
+2026-06-13T11:41:34.017Z  INFO 2032487 --- [cloud-crm] [nio-8080-exec-6] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2026-06-13T11:41:34.017Z  INFO 2032487 --- [cloud-crm] [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2026-06-13T11:41:34.405Z  INFO 2032487 --- [cloud-crm] [nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed initialization in 372 ms
+2026-06-13T11:41:36.226Z  WARN 2032487 --- [cloud-crm] [nio-8080-exec-6] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/login' (previous null). Performing CorsConfiguration lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-06-13T11:41:42.298Z  WARN 2032487 --- [cloud-crm] [nio-8080-exec-4] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [175] milliseconds.
+2026-06-13T11:41:42.331Z  WARN 2032487 --- [cloud-crm] [nio-8080-exec-6] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [184] milliseconds.
+2026-06-13T11:43:01.692Z  WARN 2032487 --- [cloud-crm] [nio-8080-exec-8] o.s.w.s.h.HandlerMappingIntrospector     : Cache miss for REQUEST dispatch to '/' (previous null). Performing MatchableHandlerMapping lookup. This is logged once only at WARN level, and every time at TRACE.
+2026-06-13T11:46:35.381Z  WARN 2032487 --- [cloud-crm] [l-1 housekeeper] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Thread starvation or clock leap detected (housekeeper delta=3m30s485ms180µs205ns).
+2026-06-13T11:46:44.030Z  WARN 2032487 --- [cloud-crm] [nio-8080-exec-8] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [1,212] milliseconds.
+2026-06-13T12:02:09.377Z  WARN 2032487 --- [cloud-crm] [nio-8080-exec-6] .w.s.m.s.DefaultHandlerExceptionResolver : Resolved [org.springframework.web.HttpRequestMethodNotSupportedException: Request method 'POST' is not supported]
